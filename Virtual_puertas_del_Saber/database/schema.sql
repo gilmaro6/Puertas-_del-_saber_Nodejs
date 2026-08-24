@@ -55,3 +55,4 @@ VALUES
   ('Cien Años de Soledad', 'Gabriel García Márquez', 'Novela', 'Literatura Latinoamericana', 'Obra maestra del realismo mágico.', 25000, 5000, 10),
   ('El Principito', 'Antoine de Saint-Exupéry', 'Fábula', 'Literatura Infantil', 'Un clásico universal sobre la amistad y la vida.', 18000, 4000, 15),
   ('Clean Code', 'Robert C. Martin', 'Técnico', 'Programación', 'Guía de buenas prácticas de desarrollo de software.', 45000, 9000, 8);
+
