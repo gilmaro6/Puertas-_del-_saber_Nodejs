@@ -34,6 +34,20 @@ async function registrar(req, res) {
   }
 }
 
+// Inicio de sesión (usado por el formulario "Ingresar" de la landing)
+async function iniciarSesion(req, res) {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ mensaje: 'Email y password son obligatorios' });
+    }
+    const resultado = await usuariosService.iniciarSesion({ email, password });
+    res.json(resultado);
+  } catch (error) {
+    res.status(error.status || 500).json({ mensaje: error.message });
+  }
+}
+
 async function actualizar(req, res) {
   try {
     const usuario = await usuariosService.actualizarUsuario(req.params.id, req.body);
@@ -63,4 +77,4 @@ async function registrarVisita(req, res) {
   }
 }
 
-module.exports = { listar, obtenerPorId, registrar, actualizar, eliminar, registrarVisita };
+module.exports = { listar, obtenerPorId, registrar, iniciarSesion, actualizar, eliminar, registrarVisita };

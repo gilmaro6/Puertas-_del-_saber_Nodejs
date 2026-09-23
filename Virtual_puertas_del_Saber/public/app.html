@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi cuenta — Virtual Puertas del Saber</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body class="app-body">
+
+  <nav class="app-nav">
+    <div class="nav-logo"><img src="assets/images/logo.png" alt="Puertas del Saber" /></div>
+    <div class="app-user">
+      <span id="app-user-nombre"></span>
+      <span class="rol-pill" id="app-user-rol"></span>
+      <button id="btn-logout">Cerrar sesión</button>
+    </div>
+  </nav>
+
+  <div class="app-shell">
+    <div class="app-tabs" id="app-tabs">
+      <button class="app-tab active" data-tab="catalogo">📚 Catálogo</button>
+      <button class="app-tab" data-tab="mis-transacciones">🧾 Mis préstamos/compras</button>
+      <button class="app-tab admin-only" data-tab="admin-libros" style="display:none">🛠️ Administrar libros</button>
+      <button class="app-tab admin-only" data-tab="admin-usuarios" style="display:none">👥 Usuarios</button>
+    </div>
+
+    <div class="app-main">
+      <div id="app-alerta-global"></div>
+
+      <!-- ===== CATÁLOGO ===== -->
+      <section id="tab-catalogo" class="app-view">
+        <h2>Catálogo digital</h2>
+        <p class="subt">Compra, alquila (15 días) o pide un libro prestado (gratis, 10 días) según tu elegibilidad.</p>
+        <div class="app-toolbar">
+          <input type="text" id="catalogo-buscar" placeholder="Buscar por título o autor..." />
+        </div>
+        <div class="book-grid" id="catalogo-grid"></div>
+      </section>
+
+      <!-- ===== MIS TRANSACCIONES ===== -->
+      <section id="tab-mis-transacciones" class="app-view" style="display:none">
+        <h2>Mis préstamos y compras</h2>
+        <p class="subt">Historial de tus transacciones. Puedes marcar como devuelto un alquiler o préstamo activo.</p>
+        <table class="tabla">
+          <thead><tr><th>Libro</th><th>Tipo</th><th>Monto</th><th>Fecha límite</th><th>Estado</th><th></th></tr></thead>
+          <tbody id="mis-transacciones-body"></tbody>
+        </table>
+      </section>
+
+      <!-- ===== ADMIN: LIBROS ===== -->
+      <section id="tab-admin-libros" class="app-view" style="display:none">
+        <h2>Administrar libros</h2>
+        <p class="subt">Agregar o eliminar títulos del catálogo.</p>
+        <form class="admin-form" id="form-nuevo-libro">
+          <input type="text" id="nl-titulo" placeholder="Título" required />
+          <input type="text" id="nl-autor" placeholder="Autor" required />
+          <input type="text" id="nl-genero" placeholder="Género" required />
+          <input type="text" id="nl-categoria" placeholder="Categoría" required />
+          <input type="number" id="nl-precio-compra" placeholder="Precio compra" min="0" step="100" />
+          <input type="number" id="nl-precio-alquiler" placeholder="Precio alquiler" min="0" step="100" />
+          <input type="number" id="nl-stock" placeholder="Stock" min="0" value="1" />
+          <button type="submit">Agregar libro</button>
+        </form>
+        <div class="book-grid" id="admin-libros-grid"></div>
+      </section>
+
+      <!-- ===== ADMIN: USUARIOS ===== -->
+      <section id="tab-admin-usuarios" class="app-view" style="display:none">
+        <h2>Usuarios registrados</h2>
+        <table class="tabla">
+          <thead><tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Visitas</th><th>Registrado</th><th></th></tr></thead>
+          <tbody id="admin-usuarios-body"></tbody>
+        </table>
+      </section>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

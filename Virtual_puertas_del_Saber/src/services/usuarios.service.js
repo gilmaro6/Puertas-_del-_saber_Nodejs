@@ -1,6 +1,10 @@
 // src/services/usuarios.service.js
 const { pool } = require('../config/database');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+const JWT_SECRET = process.env.JWT_SECRET || 'cambia_este_secreto_en_produccion';
+const JWT_EXPIRA_EN = '8h';
 
 // Listar todos los usuarios (uso administrativo)
 async function listarUsuarios() {
@@ -40,6 +44,37 @@ async function registrarUsuario({ nombre, email, password }) {
     [nombre, email, passwordHasheado]
   );
   return obtenerUsuarioPorId(resultado.insertId);
+}
+
+// Iniciar sesión: valida credenciales y devuelve el usuario (sin password) + token JWT
+async function iniciarSesion({ email, password }) {
+  const usuario = await obtenerUsuarioPorEmail(email);
+  if (!usuario) {
+    const error = new Error('Credenciales inválidas.');
+    error.status = 401;
+    throw error;
+  }
+  if (!usuario.activo) {
+    const error = new Error('La cuenta está desactivada.');
+    error.status = 403;
+    throw error;
+  }
+
+  const coincide = await bcrypt.compare(password, usuario.password);
+  if (!coincide) {
+    const error = new Error('Credenciales inválidas.');
+    error.status = 401;
+    throw error;
+  }
+
+  const token = jwt.sign(
+    { id: usuario.id, email: usuario.email, rol: usuario.rol },
+    JWT_SECRET,
+    { expiresIn: JWT_EXPIRA_EN }
+  );
+
+  const { password: _sinUsar, ...usuarioSinPassword } = usuario;
+  return { usuario: usuarioSinPassword, token };
 }
 
 // Actualizar datos de un usuario
@@ -84,8 +119,10 @@ module.exports = {
   obtenerUsuarioPorId,
   obtenerUsuarioPorEmail,
   registrarUsuario,
+  iniciarSesion,
   actualizarUsuario,
   eliminarUsuario,
   registrarVisita,
   calificaParaPrestamoGratuito,
+  JWT_SECRET,
 };
