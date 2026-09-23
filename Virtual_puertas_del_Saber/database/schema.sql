@@ -49,10 +49,14 @@ CREATE TABLE IF NOT EXISTS transacciones (
   CONSTRAINT fk_trans_libro FOREIGN KEY (libro_id) REFERENCES libros(id)
 );
 
+-- Usuario administrador por defecto (para pruebas y gestión del catálogo)
+-- Credenciales: gillson@gmail.com / 123
+INSERT INTO usuarios (nombre, email, password, rol)
+VALUES ('Gillson', 'gillson@gmail.com', '$2a$10$KXNdZIH01Ixr6fDN2KbYJ.k63lb/yWNlm.QJgIfZxZPFYikvbyhxq', 'admin');
+
 -- Datos de ejemplo
 INSERT INTO libros (titulo, autor, genero, categoria, descripcion, precio_compra, precio_alquiler, stock)
 VALUES
   ('Cien Años de Soledad', 'Gabriel García Márquez', 'Novela', 'Literatura Latinoamericana', 'Obra maestra del realismo mágico.', 25000, 5000, 10),
   ('El Principito', 'Antoine de Saint-Exupéry', 'Fábula', 'Literatura Infantil', 'Un clásico universal sobre la amistad y la vida.', 18000, 4000, 15),
   ('Clean Code', 'Robert C. Martin', 'Técnico', 'Programación', 'Guía de buenas prácticas de desarrollo de software.', 45000, 9000, 8);
-
